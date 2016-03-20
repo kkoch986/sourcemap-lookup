@@ -1,0 +1,23 @@
+{
+  "name": "sourcemap-lookup",
+  "version": "0.0.1",
+  "description": "A command line tool for doing sourcemap lookups.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "sourcemaps"
+  ],
+  "engines": {
+    "node": ">=0.10"
+  },
+  "bin": {
+    "sourcemap-lookup": "index.js"
+  },
+  "author": "Ken Koch <kkoch986@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "source-map": "^0.5.3"
+  }
+}
