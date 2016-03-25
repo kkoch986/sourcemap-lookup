@@ -11,13 +11,6 @@ var argv = require('minimist')(process.argv.slice(2), {
 		"s": "source-path"
 	}
 });
-var source = argv._[0].split(":");
-var file = source[0];
-var line = parseInt(source[1]);
-var col = parseInt(source[2]);
-var sourceDirectory = argv["source-path"] || "../../";
-var linesBefore = parseInt(argv["C"] || argv["B"]) || 5;
-var linesAfter = parseInt(argv["C"] || argv["A"]) || 5;
 
 if(argv["help"]) {
 	console.log("");
@@ -46,6 +39,15 @@ if(argv["version"]) {
 	console.log("");
 	return ;
 }
+
+var source = argv._[0].split(":");
+var file = source[0];
+var line = parseInt(source[1]);
+var col = parseInt(source[2]);
+var sourceDirectory = argv["source-path"] || "../../";
+var linesBefore = parseInt(argv["C"] || argv["B"]) || 5;
+var linesAfter = parseInt(argv["C"] || argv["A"]) || 5;
+
 
 // make sure a string is always the same length
 function pad(str, len) {
