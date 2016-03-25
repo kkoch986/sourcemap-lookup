@@ -3,7 +3,6 @@
 /**
  * To run, `node smap <path/to/js/file>:<line>:<col> [path to source directory, default is ../../]`
  **/
-var fs = require("fs");
 var argv = require('minimist')(process.argv.slice(2), {
 	alias: {
 		"h": "help", 
@@ -59,6 +58,7 @@ function pad(str, len) {
 }
 
 console.log("");
+var fs = require("fs");
 var sourceMap = require('source-map');
 fs.readFile(file + ".map", 'utf8', function (err, data) {
     if (err) throw err; // we'll not consider error handling for now
