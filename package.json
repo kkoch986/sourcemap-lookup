@@ -1,9 +1,8 @@
 {
   "name": "sourcemap-lookup",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A command line tool for doing sourcemap lookups.",
   "main": "index.js",
-
   "keywords": [
     "sourcemaps"
   ],
@@ -13,9 +12,9 @@
   "bin": {
     "sourcemap-lookup": "index.js"
   },
-  "repository" : { 
-    "type" : "git",
-    "url" : "https://github.com/kkoch986/sourcemap-lookup"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kkoch986/sourcemap-lookup"
   },
   "author": "Ken Koch <kkoch986@gmail.com>",
   "license": "MIT",
