@@ -24,7 +24,7 @@ if(argv["help"]) {
 	console.log("\t-A\t\t The number of lines to print after the target line. Default is 5.");
 	console.log("\t-B\t\t The number of lines to print before the target line. Default is 5.");
 	console.log("\t-C\t\t The number of lines to print before and after the target line. If supplied, -A and -B are ignored.");
-	console.log("\t-s <sourcepath>, \n\t--source-path=<sourcepath>\tProvide a path to the actual source files, this will be used to find the file to use when printing the lines from the source file. Default is ../../");
+	console.log("\t-s <sourcepath>, \n\t--source-path=<sourcepath>\tProvide a path to the actual source files, this will be used to find the file to use when printing the lines from the source file. Default is ./");
 
 	console.log("");
 	console.log("");
@@ -43,7 +43,7 @@ var source = argv._[0].split(":");
 var file = source[0];
 var line = parseInt(source[1]);
 var col = parseInt(source[2]);
-var sourceDirectory = argv["source-path"] || "../../";
+var sourceDirectory = argv["source-path"] || "./";
 var linesBefore = parseInt(argv["C"] || argv["B"]) || 5;
 var linesAfter = parseInt(argv["C"] || argv["A"]) || 5;
 

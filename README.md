@@ -23,12 +23,12 @@ valid [options]:
 	-B		 The number of lines to print before the target line. Default is 5.
 	-C		 The number of lines to print before and after the target line. If supplied, -A and -B are ignored.
 	-s <sourcepath>, 
-	--source-path=<sourcepath>	Provide a path to the actual source files, this will be used to find the file to use when printing the lines from the source file. Default is ../../
+	--source-path=<sourcepath>	Provide a path to the actual source files, this will be used to find the file to use when printing the lines from the source file. Default is ./
 ```
 
 # Example output
 
-Ran the following command: `sourcemap-lookup build/v2.0.19/product.js:24673:19 -s ./` to get this output:
+Ran the following command: `sourcemap-lookup build/v2.0.19/product.js:24673:19` to get this output:
 
 ```
 
