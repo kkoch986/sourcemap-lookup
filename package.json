@@ -19,6 +19,7 @@
   "author": "Ken Koch <kkoch986@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "colors": "^1.1.2",
     "minimist": "^1.2.0",
     "source-map": "^0.5.3"
   }

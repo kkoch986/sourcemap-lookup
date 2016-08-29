@@ -1,17 +1,12 @@
 #!/usr/bin/env node
 
+require('colors');
+
 /**
  * To run, `node smap <path/to/js/file>:<line>:<col> [path to source directory, default is ../../]`
  **/
-var argv = require('minimist')(process.argv.slice(2), {
-	alias: {
-		"h": "help", 
-		"v":"version",
-		"s": "source-path"
-	}
-});
 
-if(argv["help"]) {
+function showHelp() {
 	console.log("");
 	console.log("Usage: \n\tsourcemap-lookup <path/to/map/file>:<line number>:<column number> [options]");
 
@@ -28,6 +23,24 @@ if(argv["help"]) {
 
 	console.log("");
 	console.log("");
+	return ;
+}
+
+if (process.argv.length <= 2) {
+	showHelp();
+	return ;
+}
+
+var argv = require('minimist')(process.argv.slice(2), {
+	alias: {
+		"h": "help",
+		"v":"version",
+		"s": "source-path"
+	}
+});
+
+if(argv["help"]) {
+	showHelp();
 	return ;
 }
 
@@ -93,9 +106,22 @@ fs.readFile(file + ".map", 'utf8', function (err, data) {
 					var code = lines.slice(minLine, maxLine);
 					console.log("Code Section: ");
 					var padLength = Math.max(("" + minLine).length, ("" + maxLine).length) + 1;
+
+
+					function formatLineNumber(currentLine) {
+						if (currentLine == line) {
+							return (pad(currentLine, padLength - 1) + ">| ").bold.red;
+						} else {
+							return pad(currentLine, padLength) + "| ";
+						}
+					}
+
 					var currentLine = minLine;
 					for(var i = 0 ; i < code.length ; i++) {
-						console.log(pad(++currentLine, padLength) + "| " + code[i]);
+						console.log(formatLineNumber(++currentLine) + code[i]);
+						if (currentLine == line && originalPosition.column) {
+							console.log(pad('', padLength + 2 + originalPosition.column) + '^'.bold.red);
+						}
 					}
 				}
 
