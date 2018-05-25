@@ -87,47 +87,58 @@ fs.readFile(file + ".map", 'utf8', function (err, data) {
 
 	// remove the webpack stuff and try to find the real file
 	var originalFileName = (sourceDirectory +  originalPosition.source).replace("webpack:///", "").replace("/~/", "/node_modules/").replace(/\?[0-9a-zA-Z\*]+$/, "");
-	fs.access(originalFileName, fs.R_OK, function(err){
-		if(err) {
-			console.log("Unable to access source file, " + originalFileName);
+	
+    const sourceIndex = obj.sources.indexOf(originalFileName);
+
+	if (sourceIndex !== -1) {
+		showFileContent(obj.sourcesContent[sourceIndex]);
+	} else {
+		fs.access(originalFileName, fs.R_OK, function(err){
+			if(err) {
+				console.log("Unable to access source file, " + originalFileName);
+			} else {
+				fs.readFile(originalFileName, function (err, data) {
+					if (err) throw err;
+	
+					showFileContent(data.toString('utf-8'));
+				});
+			}
+		});
+	}
+
+	function showFileContent(content) {
+		// Data is a buffer that we need to convert to a string
+		// Improvement: loop over the buffer and stop when the line is reached
+		var lines = content.split("\n");
+		var line = originalPosition.line;
+		if(line > lines.length){
+			console.log("Line " + line + " outside of file bounds (" + lines.length + " lines total).");
 		} else {
-			fs.readFile(originalFileName, function (err, data) {
-				if (err) throw err;
+			var minLine = Math.max(0, line-(linesBefore + 1));
+			var maxLine = Math.min(lines.length, line+linesAfter);
+			var code = lines.slice(minLine, maxLine);
+			console.log("Code Section: ");
+			var padLength = Math.max(("" + minLine).length, ("" + maxLine).length) + 1;
 
-				// Data is a buffer that we need to convert to a string
-				// Improvement: loop over the buffer and stop when the line is reached
-				var lines = data.toString('utf-8').split("\n");
-				var line = originalPosition.line;
-				if(line > lines.length){
-					console.log("Line " + line + " outside of file bounds (" + lines.length + " lines total).");
+
+			function formatLineNumber(currentLine) {
+				if (currentLine == line) {
+					return (pad(currentLine, padLength - 1) + ">| ").bold.red;
 				} else {
-					var minLine = Math.max(0, line-(linesBefore + 1));
-					var maxLine = Math.min(lines.length, line+linesAfter);
-					var code = lines.slice(minLine, maxLine);
-					console.log("Code Section: ");
-					var padLength = Math.max(("" + minLine).length, ("" + maxLine).length) + 1;
-
-
-					function formatLineNumber(currentLine) {
-						if (currentLine == line) {
-							return (pad(currentLine, padLength - 1) + ">| ").bold.red;
-						} else {
-							return pad(currentLine, padLength) + "| ";
-						}
-					}
-
-					var currentLine = minLine;
-					for(var i = 0 ; i < code.length ; i++) {
-						console.log(formatLineNumber(++currentLine) + code[i]);
-						if (currentLine == line && originalPosition.column) {
-							console.log(pad('', padLength + 2 + originalPosition.column) + '^'.bold.red);
-						}
-					}
+					return pad(currentLine, padLength) + "| ";
 				}
+			}
 
-				console.log("");
-				console.log("");
-			});
+			var currentLine = minLine;
+			for(var i = 0 ; i < code.length ; i++) {
+				console.log(formatLineNumber(++currentLine) + code[i]);
+				if (currentLine == line && originalPosition.column) {
+					console.log(pad('', padLength + 2 + originalPosition.column) + '^'.bold.red);
+				}
+			}
 		}
-	});
+
+		console.log("");
+		console.log("");
+	}
 });
