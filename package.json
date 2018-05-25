@@ -1,6 +1,6 @@
 {
   "name": "sourcemap-lookup",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A command line tool for doing sourcemap lookups.",
   "main": "index.js",
   "keywords": [
