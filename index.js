@@ -86,8 +86,8 @@ fs.readFile(file + ".map", 'utf8', function (err, data) {
 	console.log("");
 
 	// remove the webpack stuff and try to find the real file
-	var originalFileName = (sourceDirectory +  originalPosition.source).replace("webpack:///", "").replace("/~/", "/node_modules/").replace(/\?[0-9a-zA-Z\*]+$/, "");
-	
+	var originalFileName = (sourceDirectory +  originalPosition.source).replace("webpack:///", "").replace("/~/", "/node_modules/").replace(/\?[0-9a-zA-Z\*\=]+$/, "");
+
     const sourceIndex = obj.sources.indexOf(originalFileName);
 
 	if (sourceIndex !== -1) {
@@ -99,7 +99,7 @@ fs.readFile(file + ".map", 'utf8', function (err, data) {
 			} else {
 				fs.readFile(originalFileName, function (err, data) {
 					if (err) throw err;
-	
+
 					showFileContent(data.toString('utf-8'));
 				});
 			}
